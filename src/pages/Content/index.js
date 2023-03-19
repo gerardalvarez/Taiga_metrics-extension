@@ -1,6 +1,5 @@
-import { printLine } from './modules/print';
+const newParagraph = document.createElement('p');
+newParagraph.innerText = '¡Hola desde mi extensión de Chrome!';
 
-console.log('Content script works!');
-console.log('Must reload extension for modifications to take effect.');
-
-printLine("Using the 'printLine' function from the Print Module");
+// Agrega el elemento al cuerpo de la página
+document.body.appendChild(newParagraph);

@@ -14,8 +14,8 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
-      "js": ["contentScript.bundle.js"],
+       "matches": ["https://raco.fib.upc.edu/home/portada/gerard.alvarez.izquierdo"],
+      "js": ["taigaContent.bundle.js"],
       "css": ["content.styles.css"]
     }
   ],
