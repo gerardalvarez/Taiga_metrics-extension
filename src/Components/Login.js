@@ -1,15 +1,24 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Login.css';
 import Qrapids from '../assets/img/qrapids.png';
 
 const Login = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem('logged_in') === 'true'
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [proyecto, setProyecto] = useState();
+
+  useEffect(() => {
+    chrome.storage.local.get('logged_in', (data) => {
+      setIsLoggedIn(data.logged_in);
+    });
+
+    chrome.storage.local.get('proyecto_actual', (data) => {
+      setProyecto(data.proyecto_actual);
+    });
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -29,9 +38,16 @@ const Login = () => {
     if (username === 'a' && password === 'a') {
       setIsLoggedIn(true);
       // Guarda la clave "logged_in" en el almacenamiento local
-      localStorage.setItem('logged_in', 'true');
-      localStorage.setItem('proyecto', username);
-      console.log('qqq');
+      chrome.storage.local.set(
+        { logged_in: true, proyecto_actual: username },
+        () => {
+          chrome.runtime.sendMessage({
+            type: 'updateLocalStorage',
+            logged_in: 'true',
+            proyecto_actual: username,
+          });
+        }
+      );
     } else {
       // mostrar error de autenticación
       //const data = await response.json();
@@ -49,7 +65,16 @@ const Login = () => {
     // Establece isLoggedIn a false
     setIsLoggedIn(false);
     // Elimina la clave "logged_in" del almacenamiento local
-    localStorage.removeItem('logged_in');
+    chrome.storage.local.set(
+      { logged_in: false, proyecto_actual: username },
+      () => {
+        chrome.runtime.sendMessage({
+          type: 'updateLocalStorage',
+          logged_in: 'false',
+          proyecto_actual: null,
+        });
+      }
+    );
   };
 
   const clearForm = () => {
@@ -60,9 +85,9 @@ const Login = () => {
     <div>
       {isLoggedIn ? (
         <div className="centered-container">
-          <img src={Qrapids} className="img" />
+          <img alt="img" src={Qrapids} className="img" />
           <div className="pp">
-            <p>Visualizando el proyecto : {localStorage.getItem('proyecto')}</p>
+            <p>Visualizando el proyecto : {proyecto}</p>
           </div>
           <div className="but2">
             <button onClick={handleLogout}>Cerrar sesión</button>

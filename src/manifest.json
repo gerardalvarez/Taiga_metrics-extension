@@ -14,11 +14,18 @@
   },
   "content_scripts": [
     {
-       "matches": ["https://raco.fib.upc.edu/home/portada/gerard.alvarez.izquierdo"],
+       "matches": ["https://tree.taiga.io/project/*/timeline"],
       "js": ["taigaContent.bundle.js"],
       "css": ["content.styles.css"]
     }
   ],
+  "permissions": [
+    "storage","scripting","activeTab"
+],
+"host_permissions": [
+    "http://localhost:3000/*"
+    ,"*://*/*"
+],
   "devtools_page": "devtools.html",
   "web_accessible_resources": [
     {
