@@ -1,0 +1,8 @@
+h1 {
+  font-family: Ubuntu-Medium, Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: #008aa8;
+  -webkit-margin-after: 1rem;
+  margin-block-end: 1rem;
+}
