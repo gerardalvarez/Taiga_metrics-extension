@@ -35,17 +35,31 @@ const Login = () => {
       });
       console.log('aaaaa'); 
       if (response.ok) { */
-    if (username === 'a' && password === 'a') {
+    if (username === 'pes11a' && password === 'a') {
       setIsLoggedIn(true);
+      setProyecto(username);
       // Guarda la clave "logged_in" en el almacenamiento local
       chrome.storage.local.set(
         { logged_in: true, proyecto_actual: username },
         () => {
           chrome.runtime.sendMessage({
             type: 'updateLocalStorage',
-            logged_in: 'true',
+            logged_in: true,
             proyecto_actual: username,
           });
+        }
+      );
+
+      chrome.tabs.query(
+        { url: 'https://tree.taiga.io/project/*/timeline' },
+        function (tabs) {
+          if (tabs.length > 0) {
+            // Se encontró la pestaña
+            chrome.tabs.reload(tabs[0].id);
+          } else {
+            // La pestaña no está abierta
+            // Puedes abrir la pestaña usando chrome.tabs.create
+          }
         }
       );
     } else {
@@ -64,13 +78,14 @@ const Login = () => {
   const handleLogout = () => {
     // Establece isLoggedIn a false
     setIsLoggedIn(false);
+    setProyecto('');
     // Elimina la clave "logged_in" del almacenamiento local
     chrome.storage.local.set(
       { logged_in: false, proyecto_actual: username },
       () => {
         chrome.runtime.sendMessage({
           type: 'updateLocalStorage',
-          logged_in: 'false',
+          logged_in: false,
           proyecto_actual: null,
         });
       }
