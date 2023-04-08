@@ -40,20 +40,46 @@
 }
 .buttons_container {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  max-width: 600px;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.buttons_container3 {
+  display: flex;
+  justify-content: space-between;
+  background-color: #18e0b5;
+  margin: 10px 0px 0px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f0f8f6;
   flex-wrap: wrap;
 }
 .buttons_container2 {
   display: flex;
-  justify-content: space-around;
-  margin-top: 40px;
-  margin-bottom: 60px;
-  margin-left: 5px;
-  margin-right: 5px;
+  position: relative;
+  justify-content: baseline;
+  flex-direction: column;
+  margin-bottom: 40px;
+  margin-left: 25px;
+  margin-right: 25px;
   max-width: 600px;
-  flex-wrap: wrap;
+  border: 1px solid #ccc;
+  border-radius: 0px 3px 3px 3px;
+  padding: 5px;
+  background-color: #ffffffe5;
+}
+.buttons_container2.open {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 40px;
+  margin-left: 25px;
+  margin-right: 25px;
+  max-width: 600px;
+  border: 1px solid #ccc;
+  border-radius: 0px 3px 3px 3px;
+  padding: 5px;
+  background-color: #ffffffe5;
 }
 
 .buttons {
@@ -93,4 +119,27 @@
   flex-direction: row;
   justify-content: center;
   margin: 25px;
+}
+
+.filtername {
+  margin: 0px 10px;
+  width: 30px;
+  align-self: center;
+}
+
+.filterIcon {
+  margin: 0px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.black {
+  background-color: black;
+  color: white;
 }

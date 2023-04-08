@@ -4,6 +4,8 @@ import RadarChart from './Charts/Radar';
 import Speedometer from './Charts/Speedometer';
 import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
+import { motion } from 'framer-motion';
+import { TbAdjustments } from 'react-icons/tb';
 
 function extractvalues(data) {
   var result = [];
@@ -17,6 +19,11 @@ export default function UserMetrics() {
   const [data, setData] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedFiltersStudents, setSelectedFiltersStudents] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
 
   const filters = [
     'assignedtasks',
@@ -65,34 +72,55 @@ export default function UserMetrics() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.buttons_container}>
-        {filters.map((key) => (
-          <button
-            onClick={() => handleFilterButtonClick(key)}
-            className={
-              selectedFilters?.includes(key)
-                ? styles.buttons_active
-                : styles.buttons
-            }
+      <motion.div
+        className={`${styles['buttons_container2']} ${
+          isOpen ? styles.open : ''
+        }`}
+        transition={{ layout: { duration: 0.2 } }}
+        layout
+      >
+        <motion.div className={styles.buttons_container} layout="position">
+          <div className={styles.filtername}>Filters</div>
+          <div
+            className={`${styles.filterIcon} ${isOpen ? styles.black : ''}`}
+            onClick={handleClick}
           >
-            {filterNames[key]}
-          </button>
-        ))}
-      </div>
-      <div className={styles.buttons_container2}>
-        {Object.keys(dataMetrics).map((key) => (
-          <button
-            onClick={() => handleFilterButtonClickStudents(key)}
-            className={
-              selectedFiltersStudents?.includes(key)
-                ? styles.buttons_active
-                : styles.buttons
-            }
-          >
-            {key}
-          </button>
-        ))}
-      </div>
+            <TbAdjustments size={20} />
+          </div>
+        </motion.div>
+        {isOpen && (
+          <>
+            <div className={styles.buttons_container3}>
+              {filters.map((key) => (
+                <button
+                  onClick={() => handleFilterButtonClick(key)}
+                  className={
+                    selectedFilters?.includes(key)
+                      ? styles.buttons_active
+                      : styles.buttons
+                  }
+                >
+                  {filterNames[key]}
+                </button>
+              ))}
+            </div>
+            <motion.div className={styles.buttons_container3}>
+              {Object.keys(dataMetrics).map((key) => (
+                <button
+                  onClick={() => handleFilterButtonClickStudents(key)}
+                  className={
+                    selectedFiltersStudents?.includes(key)
+                      ? styles.buttons_active
+                      : styles.buttons
+                  }
+                >
+                  {key.replace(/_|#|-|@|<>|^[H]/g, ' ')}
+                </button>
+              ))}
+            </motion.div>
+          </>
+        )}
+      </motion.div>
       {selectedFilters.length <= 0 ? (
         <div
           styles={{
@@ -107,39 +135,40 @@ export default function UserMetrics() {
               selectedFiltersStudents.includes(key)
             ) {
               return (
-                <div>
-                  <br />
-                  <br />
+                <>
                   <hr style={{ width: '500px' }} />
                   <br />
-                  <div className={styles.titulo}>
-                    <div className={styles.infoTit}>{key} </div>
-                  </div>
+
                   <div>
-                    <RadarChart
-                      student={key}
-                      values={extractvalues(dataMetrics[key])}
-                    />
+                    {' '}
+                    <div className={styles.titulo}>
+                      <div className={styles.infoTit}>{key} </div>
+                    </div>
+                    <div>
+                      <RadarChart
+                        student={key}
+                        values={extractvalues(dataMetrics[key])}
+                      />
+                    </div>
+                    {dataMetrics[key].map((dato, index) => (
+                      <>
+                        <div
+                          key={dato.id}
+                          className={styles.info}
+                          data-tooltip-id={dato.id}
+                          data-tooltip-content={dato.description}
+                        >
+                          <Tooltip id={dato.id} place="left" />
+                          <div className={styles.infoBut}>{dato.name}</div>
+                          Last updated at {dato.date}. Value in % :&nbsp;
+                          {dato.value * 100}
+                        </div>
+                      </>
+                    ))}
                   </div>
-                  {dataMetrics[key].map((dato, index) => (
-                    <>
-                      <div
-                        key={dato.id}
-                        className={styles.info}
-                        data-tooltip-id={dato.id}
-                        data-tooltip-content={dato.description}
-                      >
-                        <Tooltip id={dato.id} place="left" />
-                        <div className={styles.infoBut}>{dato.name}</div>
-                        Last updated at {dato.date}. Value in % :&nbsp;
-                        {dato.value * 100}
-                      </div>
-                    </>
-                  ))}
-                </div>
+                </>
               );
             }
-            return null;
           })}
         </div>
       ) : (
@@ -186,10 +215,7 @@ export default function UserMetrics() {
                 </>
               );
             }
-            return null;
-          })}
-          <br />
-          <br />{' '}
+          })}{' '}
         </div>
       )}
     </div>
