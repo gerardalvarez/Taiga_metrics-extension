@@ -46,7 +46,7 @@ export default function UserMetrics() {
       })
       .catch((error) => console.error(error));
     console.log(dataMetrics);
-  });
+  }, []);
 
   const handleFilterButtonClick = (selectedCategory) => {
     if (selectedFilters.includes(selectedCategory)) {
