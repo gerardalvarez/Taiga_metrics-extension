@@ -13,7 +13,7 @@ window.addEventListener('load', function () {
     const reactContainer = document.createElement('div');
     ReactDOM.render(React.createElement(App), reactContainer);
     elementoX.insertAdjacentElement('afterend', reactContainer);
-  }, 4000);
+  }, 3000);
 });
 
 //
@@ -39,7 +39,12 @@ function App() {
         //LAS METRICAS
         //////////////////////////////////////////////////////////
         <div
-          style={{ display: 'flex', flexDirection: 'column', width: '550px' }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            maxWidth: '600px',
+            minWidth: '600px',
+          }}
         >
           <Metrics />
         </div>
@@ -51,10 +56,11 @@ function App() {
         <div
           style={{
             display: 'flex',
-            width: '300px',
-            height: '300px',
+            maxWidth: '580px',
+            minWidth: '580px',
             justifyContent: 'center',
             alignItems: 'center',
+            height: '100%',
           }}
         >
           <div
@@ -66,8 +72,8 @@ function App() {
             }}
           >
             <h1>
-              Inicia sesión en tu proyecto para visualizar las metricas y
-              recarga la página!{' '}
+              Please log in to the extension's pop-up to view the metrics of
+              your project. Thank you!
             </h1>
           </div>
         </div>
