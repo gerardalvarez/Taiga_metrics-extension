@@ -15,8 +15,6 @@ function extractvalues(data) {
 
 export default function UserMetrics() {
   const [dataMetrics, setDataMetrics] = useState('');
-  const [student, setStudent] = useState('');
-  const [data, setData] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedFiltersStudents, setSelectedFiltersStudents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +46,7 @@ export default function UserMetrics() {
       })
       .catch((error) => console.error(error));
     console.log(dataMetrics);
-  }, []);
+  });
 
   const handleFilterButtonClick = (selectedCategory) => {
     if (selectedFilters.includes(selectedCategory)) {
@@ -128,7 +126,7 @@ export default function UserMetrics() {
             justifyContent: 'center',
           }}
         >
-          {Object.keys(dataMetrics).map((key, index) => {
+          {Object.keys(dataMetrics).map((key) => {
             console.log(selectedFiltersStudents);
             if (
               selectedFiltersStudents.length <= 0 ||
@@ -150,7 +148,7 @@ export default function UserMetrics() {
                         values={extractvalues(dataMetrics[key])}
                       />
                     </div>
-                    {dataMetrics[key].map((dato, index) => (
+                    {dataMetrics[key].map((dato) => (
                       <>
                         <div
                           key={dato.id}
@@ -169,6 +167,7 @@ export default function UserMetrics() {
                 </>
               );
             }
+            return null;
           })}
         </div>
       ) : (
@@ -178,7 +177,7 @@ export default function UserMetrics() {
             justifyContent: 'center',
           }}
         >
-          {Object.keys(dataMetrics).map((key, index) => {
+          {Object.keys(dataMetrics).map((key) => {
             if (
               selectedFiltersStudents.length <= 0 ||
               selectedFiltersStudents.includes(key)
@@ -215,6 +214,7 @@ export default function UserMetrics() {
                 </>
               );
             }
+            return null;
           })}{' '}
         </div>
       )}
