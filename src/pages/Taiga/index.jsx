@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import styles from './Index.module.css';
 import Metrics from '../../Components/Metrics';
 
 // Espera a que la página termine de cargar
@@ -35,45 +35,15 @@ function App() {
   return (
     <div>
       {isLogged ? (
-        //////////////////////////////////////////////////////////
-        //LAS METRICAS
-        //////////////////////////////////////////////////////////
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            maxWidth: '600px',
-            minWidth: '600px',
-          }}
-        >
-          <Metrics />
+        <div className={styles.containerMetrics}>
+          <Metrics proyecto={proyecto} />
         </div>
       ) : (
-        //////////////////////////////////////////////////////////
-        //AQUI EL AVISO DE INICIO DE SESSION PARA VER LAS METRICAS
-        //////////////////////////////////////////////////////////
-
-        <div
-          style={{
-            display: 'flex',
-            maxWidth: '580px',
-            minWidth: '580px',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
-          <div
-            style={{
-              padding: '10px',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-            }}
-          >
+        <div className={styles.containerLogInMessage}>
+          <div className={styles.logInMessage}>
             <h1>
               Please log in to the extension's pop-up to view the metrics of
-              your project. Thank you!
+              your project.
             </h1>
           </div>
         </div>

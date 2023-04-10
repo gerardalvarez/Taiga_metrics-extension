@@ -1,3 +1,14 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  height: 100%;
+  max-width: 600px;
+  min-width: 600px;
+  color: black;
+}
+
 .tabbedContainer {
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -58,4 +69,44 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.errorcontainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 400px;
+}
+
+.errorimg {
+  margin-top: 250px;
+  margin-bottom: 20px;
+  width: 510px;
+  height: 100px;
+}
+
+.errortext {
+  font-family: Ubuntu-Medium, Arial, Helvetica, sans-serif;
+  font-size: 1.2rem;
+  color: #008aa8;
+}
+
+.reload {
+  font-family: Ubuntu-Medium, Arial, Helvetica, sans-serif;
+  font-size: 1.2rem;
+  color: #01232b;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-bottom: 250px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding-top: 350px;
+  padding-bottom: 400px;
+  padding-left: 20px;
 }

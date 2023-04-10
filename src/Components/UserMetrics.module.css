@@ -45,7 +45,7 @@
 }
 .buttons_container3 {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   background-color: #18e0b5;
   margin: 10px 0px 0px;
   border: 1px solid #ccc;

@@ -46,6 +46,7 @@ export default function UserMetrics() {
       })
       .catch((error) => console.error(error));
     console.log(dataMetrics);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleFilterButtonClick = (selectedCategory) => {
