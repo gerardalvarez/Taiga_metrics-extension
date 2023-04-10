@@ -1,19 +1,11 @@
 import styles from './ProjectMetrics.module.css';
 import { useState, useEffect } from 'react';
-import RadarChart from './Charts/Radar';
 import Speedometer from './Charts/Speedometer';
 import { motion } from 'framer-motion';
 import { TbAdjustments } from 'react-icons/tb';
 
-function extractvalues(data) {
-  var result = [];
-  data.map((dato) => result.push(dato.value * 100));
-  return result;
-}
-
 export default function ProjectMetrics() {
   const [dataMetrics, setDataMetrics] = useState('');
-  const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedFiltersStudents, setSelectedFiltersStudents] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -81,94 +73,45 @@ export default function ProjectMetrics() {
         )}
       </motion.div>
 
-      {selectedFilters.length <= 0 ? (
-        <div
-          styles={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          {Object.keys(dataMetrics).map((key, index) => {
-            console.log(selectedFiltersStudents);
-            if (
-              selectedFiltersStudents.length <= 0 ||
-              selectedFiltersStudents.includes(key)
-            ) {
-              return (
-                <div>
-                  {' '}
+      <div
+        styles={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        {Object.keys(dataMetrics).map((key) => {
+          if (
+            selectedFiltersStudents.length <= 0 ||
+            selectedFiltersStudents.includes(key)
+          ) {
+            return (
+              <div>
+                {' '}
+                <>
+                  <hr style={{ width: '500px' }} />
+                  <br />
+                </>
+                <div className={styles.titulo}>
+                  <div className={styles.infoTit}>
+                    {key.replace(/_|#|-|@|<>|^[H]/g, ' ')}{' '}
+                  </div>
+                </div>
+                {dataMetrics[key].map((dato) => (
                   <>
-                    <hr style={{ width: '500px' }} />
-                    <br />
-                  </>
-                  <div className={styles.titulo}>
-                    <div className={styles.infoTit}>
-                      {key.replace(/_|#|-|@|<>|^[H]/g, ' ')}{' '}
+                    {dato.description !== '' ? (
+                      <div className={styles.infodesc}>{dato.description} </div>
+                    ) : null}
+                    <div key={dato.id} className={styles.speedometers}>
+                      <Speedometer value={dato.value * 100} text={dato.name} />
                     </div>
-                  </div>
-                  {dataMetrics[key].map((dato) => (
-                    <>
-                      {dato.description != '' ? (
-                        <div className={styles.infodesc}>
-                          {dato.description}{' '}
-                        </div>
-                      ) : null}
-                      <div key={dato.id} className={styles.speedometers}>
-                        <Speedometer
-                          value={dato.value * 100}
-                          text={dato.name}
-                        />
-                      </div>
-                    </>
-                  ))}
-                </div>
-              );
-            }
-          })}
-        </div>
-      ) : (
-        <div
-          styles={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          {Object.keys(dataMetrics).map((key) => {
-            if (
-              selectedFiltersStudents.length <= 0 ||
-              selectedFiltersStudents.includes(key)
-            ) {
-              return (
-                <div className={styles.speedometers_container}>
-                  <div className={styles.titulo}>
-                    <div className={styles.infoTit}>{key} </div>
-                  </div>
-                  {dataMetrics[key].map((dato) => (
-                    <>
-                      {(selectedFilters.includes(
-                        dato.id.toLowerCase().substring(0, dato.id.indexOf('_'))
-                      ) ||
-                        selectedFilters.includes(
-                          dato.qualityFactors[0].toLowerCase()
-                        )) && (
-                        <div key={dato.id} className={styles.speedometers}>
-                          <Speedometer
-                            value={dato.value * 100}
-                            text={dato.name}
-                          />
-                        </div>
-                      )}
-                    </>
-                  ))}
-                  <div>
-                    <hr style={{ width: '500px' }} />
-                  </div>
-                </div>
-              );
-            }
-          })}{' '}
-        </div>
-      )}
+                  </>
+                ))}
+              </div>
+            );
+          }
+          return null;
+        })}
+      </div>
     </div>
   );
 }
