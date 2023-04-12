@@ -95,3 +95,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log(data);
   });
 });
+
+chrome.runtime.onInstalled.addListener(function (details) {
+  if (details.reason === 'install') {
+    chrome.storage.local.clear();
+  }
+});
