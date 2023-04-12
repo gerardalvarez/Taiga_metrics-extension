@@ -16,8 +16,19 @@ export default function Metrics() {
   const [loading, setLoading] = useState(true);
   const [usdata, setUsdata] = useState(null);
   const [pdata, setPdata] = useState(null);
+  const [activeTab, setActiveTab] = useState(0); // estado de la pestaña activa
 
   useEffect(() => {
+    chrome.storage.local.get('extensionTabs', (data) => {
+      console.log('tabs:');
+      console.log(data);
+
+      data &&
+      Object.keys(data).length === 0 &&
+      Object.getPrototypeOf(data) === Object.prototype
+        ? setActiveTab(0)
+        : setActiveTab(data.extensionTabs);
+    });
     fetch('http://localhost:3000/api/projects/pes11a/projectmetrics')
       .then((response) => response.json())
       .then((data) => {
@@ -46,7 +57,6 @@ export default function Metrics() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [activeTab, setActiveTab] = useState(0); // estado de la pestaña activa
   return (
     <>
       <div className={styles.container}>
@@ -55,13 +65,29 @@ export default function Metrics() {
             <div className={styles.tabcont}>
               <div
                 className={activeTab === 0 ? styles.activeTab : styles.tab}
-                onClick={() => setActiveTab(0)}
+                onClick={() => {
+                  setActiveTab(0);
+                  chrome.storage.local.set({ extensionTabs: 0 }, () => {
+                    chrome.runtime.sendMessage({
+                      type: 'updateinnerTabs',
+                      extensionTabs: 0,
+                    });
+                  });
+                }}
               >
                 Users Metrics
               </div>
               <div
                 className={activeTab === 1 ? styles.activeTab : styles.tab}
-                onClick={() => setActiveTab(1)}
+                onClick={() => {
+                  setActiveTab(1);
+                  chrome.storage.local.set({ extensionTabs: 1 }, () => {
+                    chrome.runtime.sendMessage({
+                      type: 'updateinnerTabs',
+                      extensionTabs: 1,
+                    });
+                  });
+                }}
               >
                 Project Metrics
               </div>

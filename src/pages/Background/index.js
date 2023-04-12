@@ -48,6 +48,49 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     );
   }
 
+  if (request.type === 'updateinnerTabs') {
+    chrome.storage.local.set({ extensionTabs: request.extensionTabs }, () => {
+      console.log(
+        'Datos guardados en el almacenamiento local. ' + request.extensionTabs
+      );
+    });
+  }
+
+  if (request.type === 'updateprojectFilters') {
+    chrome.storage.local.set({ projectFilters: request.projectFilters }, () => {
+      console.log(
+        'Datos guardados en el almacenamiento local. ' + request.projectFilters
+      );
+    });
+  }
+
+  if (request.type === 'updateusersFiltersStudent') {
+    chrome.storage.local.set(
+      { usersFiltersStudent: request.usersFiltersStudent },
+      () => {
+        console.log(
+          'Datos guardados en el almacenamiento local. ' +
+            request.usersFiltersStudent
+        );
+      }
+    );
+  }
+
+  if (request.type === 'updateusersFilters') {
+    chrome.storage.local.set({ usersFilters: request.usersFilters }, () => {
+      console.log(
+        'Datos guardados en el almacenamiento local. ' + request.usersFilters
+      );
+    });
+  }
+
+  if (request.type === 'logout') {
+    chrome.storage.local.remove('projectFilters', () => {});
+    chrome.storage.local.remove('usersFiltersStudent', () => {});
+    chrome.storage.local.remove('usersFilters', () => {});
+    chrome.storage.local.remove('extensionTabs', () => {});
+  }
+
   chrome.storage.local.get('logged_in', (data) => {
     console.log(data);
   });

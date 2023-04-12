@@ -26,6 +26,16 @@ export default function ProjectMetrics(props) {
     if (props.data) {
       setDataMetrics(props.data);
     }
+    chrome.storage.local.get('projectFilters', (data) => {
+      console.log('projectFilters:');
+      console.log(data);
+
+      data &&
+      Object.keys(data).length === 0 &&
+      Object.getPrototypeOf(data) === Object.prototype
+        ? setSelectedFiltersStudents([])
+        : setSelectedFiltersStudents(data.projectFilters);
+    });
   }, [props.data]);
 
   const handleFilterButtonClick = (selectedStudent) => {
@@ -34,8 +44,23 @@ export default function ProjectMetrics(props) {
         (el) => el !== selectedStudent
       );
       setSelectedFiltersStudents(filters2);
+      chrome.storage.local.set({ projectFilters: filters2 }, () => {
+        chrome.runtime.sendMessage({
+          type: 'updateprojectFilters',
+          projectFilters: filters2,
+        });
+      });
     } else {
       setSelectedFiltersStudents([...selectedFiltersStudents, selectedStudent]);
+      chrome.storage.local.set(
+        { projectFilters: [...selectedFiltersStudents, selectedStudent] },
+        () => {
+          chrome.runtime.sendMessage({
+            type: 'updateprojectFilters',
+            projectFilters: [...selectedFiltersStudents, selectedStudent],
+          });
+        }
+      );
     }
   };
 

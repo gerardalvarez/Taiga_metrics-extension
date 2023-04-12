@@ -50,14 +50,44 @@ export default function UserMetrics(props) {
     if (props.dataus) {
       setDataMetrics(props.dataus);
     }
+    chrome.storage.local.get('usersFilters', (data) => {
+      data &&
+      Object.keys(data).length === 0 &&
+      Object.getPrototypeOf(data) === Object.prototype
+        ? setSelectedFilters([])
+        : setSelectedFilters(data.usersFilters);
+    });
+
+    chrome.storage.local.get('usersFiltersStudent', (data) => {
+      data &&
+      Object.keys(data).length === 0 &&
+      Object.getPrototypeOf(data) === Object.prototype
+        ? setSelectedFiltersStudents([])
+        : setSelectedFiltersStudents(data.usersFiltersStudent);
+    });
   }, [props.dataus]);
 
   const handleFilterButtonClick = (selectedCategory) => {
     if (selectedFilters.includes(selectedCategory)) {
       let filters = selectedFilters.filter((el) => el !== selectedCategory);
       setSelectedFilters(filters);
+      chrome.storage.local.set({ usersFilters: filters }, () => {
+        chrome.runtime.sendMessage({
+          type: 'updateusersFilters',
+          usersFilters: filters,
+        });
+      });
     } else {
       setSelectedFilters([...selectedFilters, selectedCategory]);
+      chrome.storage.local.set(
+        { usersFilters: [...selectedFilters, selectedCategory] },
+        () => {
+          chrome.runtime.sendMessage({
+            type: 'updateusersFilters',
+            usersFilters: [...selectedFilters, selectedCategory],
+          });
+        }
+      );
     }
   };
 
@@ -67,8 +97,23 @@ export default function UserMetrics(props) {
         (el) => el !== selectedStudent
       );
       setSelectedFiltersStudents(filters2);
+      chrome.storage.local.set({ usersFiltersStudent: filters2 }, () => {
+        chrome.runtime.sendMessage({
+          type: 'updateusersFiltersStudent',
+          usersFiltersStudent: filters2,
+        });
+      });
     } else {
       setSelectedFiltersStudents([...selectedFiltersStudents, selectedStudent]);
+      chrome.storage.local.set(
+        { usersFiltersStudent: [...selectedFiltersStudents, selectedStudent] },
+        () => {
+          chrome.runtime.sendMessage({
+            type: 'updateusersFiltersStudent',
+            usersFiltersStudent: [...selectedFiltersStudents, selectedStudent],
+          });
+        }
+      );
     }
   };
 

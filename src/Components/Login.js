@@ -90,6 +90,9 @@ const Login = () => {
         });
       }
     );
+    chrome.runtime.sendMessage({
+      type: 'logout',
+    });
   };
 
   const clearForm = () => {

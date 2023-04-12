@@ -14,7 +14,7 @@
   },
   "content_scripts": [
     {
-       "matches": ["https://tree.taiga.io/project/*/timeline"],
+       "matches": ["https://tree.taiga.io/*"],
       "js": ["taigaContent.bundle.js"],
       "css": ["content.styles.css"]
     }

@@ -5,9 +5,16 @@ import styles from './Index.module.css';
 import Metrics from '../../Components/Metrics';
 
 function injectReactComponent() {
-  // Check if the React container already exists in the DOM
-  if (document.querySelector('#my-react-container') != null) {
-    return;
+  if (
+    window.location.href.match(
+      /^https:\/\/tree.taiga.io\/project\/.*\/timeline$/
+    )
+  ) {
+    // Check if the React container already exists in the DOM
+    // Check if the React container already exists in the DOM
+    if (document.querySelector('#my-react-container') != null) {
+      return;
+    }
   }
 
   const singleProjectIntro = document.querySelector('.single-project-intro');
