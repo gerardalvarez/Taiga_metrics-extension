@@ -13,7 +13,7 @@ function extractvalues(data) {
   return result;
 }
 
-export default function UserMetrics() {
+export default function UserMetrics(props) {
   const [dataMetrics, setDataMetrics] = useState('');
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedFiltersStudents, setSelectedFiltersStudents] = useState([]);
@@ -38,16 +38,19 @@ export default function UserMetrics() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/projects/pes11a/usersmetrics')
+    /*fetch('http://localhost:3000/api/projects/pes11a/usersmetrics')
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         setDataMetrics(data);
       })
       .catch((error) => console.error(error));
-    console.log(dataMetrics);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    console.log(dataMetrics);*/
+
+    if (props.dataus) {
+      setDataMetrics(props.dataus);
+    }
+  }, [props.dataus]);
 
   const handleFilterButtonClick = (selectedCategory) => {
     if (selectedFilters.includes(selectedCategory)) {

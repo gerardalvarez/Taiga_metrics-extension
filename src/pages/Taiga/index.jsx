@@ -4,19 +4,36 @@ import ReactDOM from 'react-dom';
 import styles from './Index.module.css';
 import Metrics from '../../Components/Metrics';
 
-// Espera a que la página termine de cargar
-window.addEventListener('load', function () {
-  setTimeout(function () {
-    const elementoX = document.querySelector(
-      '.single-project-intro'
-    ).parentNode;
+function injectReactComponent() {
+  // Check if the React container already exists in the DOM
+  if (document.querySelector('#my-react-container') != null) {
+    return;
+  }
+
+  const singleProjectIntro = document.querySelector('.single-project-intro');
+  if (singleProjectIntro != null) {
+    const elementoX = singleProjectIntro.parentNode;
     const reactContainer = document.createElement('div');
+    reactContainer.setAttribute('id', 'my-react-container');
     ReactDOM.render(React.createElement(App), reactContainer);
     elementoX.insertAdjacentElement('afterend', reactContainer);
-  }, 3000);
+  }
+}
+
+const singleProjectIntro = document.querySelector('.single-project-intro');
+if (singleProjectIntro != null) {
+  injectReactComponent();
+}
+
+const observer = new MutationObserver(function (mutationsList, observer) {
+  console.log('www');
+  if (document.querySelector('.single-project-intro') != null) {
+    injectReactComponent();
+    return;
+  }
 });
 
-//
+observer.observe(document.body, { childList: true, subtree: true });
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);

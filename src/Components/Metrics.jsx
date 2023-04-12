@@ -14,14 +14,29 @@ function reload() {
 export default function Metrics() {
   const [error, seterror] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [usdata, setUsdata] = useState(null);
+  const [pdata, setPdata] = useState(null);
 
   useEffect(() => {
+    fetch('http://localhost:3000/api/projects/pes11a/projectmetrics')
+      .then((response) => response.json())
+      .then((data) => {
+        data.error ? seterror(true) : seterror(false);
+        setLoading(false);
+        setPdata(data);
+      })
+      .catch((error) => {
+        seterror(true);
+        setLoading(false);
+        console.error(error);
+      });
+    setLoading(true);
     fetch('http://localhost:3000/api/projects/pes11a/usersmetrics')
       .then((response) => response.json())
       .then((data) => {
         data.error ? seterror(true) : seterror(false);
         setLoading(false);
-        console.log(error);
+        setUsdata(data);
       })
       .catch((error) => {
         seterror(true);
@@ -81,12 +96,12 @@ export default function Metrics() {
             <>
               {activeTab === 0 && (
                 <div className={styles.tabPanel}>
-                  <UserMetrics />
+                  <UserMetrics dataus={usdata} />
                 </div>
               )}
               {activeTab === 1 && (
                 <div className={styles.tabPanel}>
-                  <ProjectMetrics />
+                  <ProjectMetrics data={pdata} />
                 </div>
               )}
             </>

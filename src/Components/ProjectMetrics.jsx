@@ -4,7 +4,7 @@ import Speedometer from './Charts/Speedometer';
 import { motion } from 'framer-motion';
 import { TbAdjustments } from 'react-icons/tb';
 
-export default function ProjectMetrics() {
+export default function ProjectMetrics(props) {
   const [dataMetrics, setDataMetrics] = useState('');
   const [selectedFiltersStudents, setSelectedFiltersStudents] = useState([]);
 
@@ -15,16 +15,18 @@ export default function ProjectMetrics() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/projects/pes11a/projectmetrics')
+    /* fetch('http://localhost:3000/api/projects/pes11a/projectmetrics')
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         setDataMetrics(data);
       })
       .catch((error) => console.error(error));
-    console.log(dataMetrics);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    console.log(dataMetrics); */
+    if (props.data) {
+      setDataMetrics(props.data);
+    }
+  }, [props.data]);
 
   const handleFilterButtonClick = (selectedStudent) => {
     if (selectedFiltersStudents.includes(selectedStudent)) {
