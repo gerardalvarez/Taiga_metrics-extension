@@ -23,8 +23,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       { url: 'https://tree.taiga.io/project/*/timeline' },
       function (tabs) {
         if (tabs.length > 0) {
-          // Se encontró la pestaña
-          chrome.tabs.reload(tabs[0].id);
+          tabs.forEach(function (tab) {
+            chrome.tabs.reload(tab.id);
+          });
         } else {
           // La pestaña no está abierta
           // Puedes abrir la pestaña usando chrome.tabs.create
@@ -38,8 +39,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       { url: 'https://tree.taiga.io/project/*/timeline' },
       function (tabs) {
         if (tabs.length > 0) {
-          // Se encontró la pestaña
-          chrome.tabs.reload(tabs[0].id);
+          tabs.forEach(function (tab) {
+            chrome.tabs.reload(tab.id);
+          });
         } else {
           // La pestaña no está abierta
           // Puedes abrir la pestaña usando chrome.tabs.create
