@@ -105,10 +105,13 @@ const Login = () => {
         <div className="centered-container">
           <img alt="img" src={Qrapids} className="img" />
           <div className="pp">
-            <p>Visualizando el proyecto : {proyecto}</p>
+            <p>Showing project : {proyecto}</p>
+          </div>
+          <div className="pp">
+            <p>If nothing is showed in the /timeline, reload the page</p>
           </div>
           <div className="but2">
-            <button onClick={handleLogout}>Cerrar sesión</button>
+            <button onClick={handleLogout}>Log Out</button>
           </div>
         </div>
       ) : (
@@ -116,9 +119,9 @@ const Login = () => {
           <div className="bar"></div>
           <div>
             <form onSubmit={handleLogin}>
-              <div className="title">Login | QRapids</div>
+              <div className="title">Log In | QRapids</div>
               <div className="user">
-                <label htmlFor="username">Usuario </label>
+                <label htmlFor="username">Username </label>
                 <input
                   className="user-input"
                   type="text"
@@ -128,7 +131,7 @@ const Login = () => {
                 />
               </div>
               <div className="pswd">
-                <label htmlFor="password">Contraseña </label>
+                <label htmlFor="password">Password </label>
                 <input
                   className="pswd-input"
                   type="password"
