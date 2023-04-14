@@ -8,39 +8,13 @@ function Speedometer(props) {
         <ReactSpeedometer
           width={400}
           needleHeightRatio={0.7}
-          maxValue={100}
-          value={props.value}
+          maxValue={1}
+          value={props.value / 100}
           currentValueText={
             props.text + ' ( ' + props.value.toString().slice(0, 6) + ' %)'
           }
-          customSegmentLabels={[
-            {
-              text: 'Very Bad',
-              position: 'INSIDE',
-              color: '#000',
-            },
-            {
-              text: 'Bad',
-              position: 'INSIDE',
-              color: '#000',
-            },
-            {
-              text: 'Ok',
-              position: 'INSIDE',
-              color: '#000',
-              fontSize: '19px',
-            },
-            {
-              text: 'Good',
-              position: 'INSIDE',
-              color: '#000',
-            },
-            {
-              text: 'Very Good',
-              position: 'INSIDE',
-              color: '#000',
-            },
-          ]}
+          customSegmentStops={props.data ? props.data.values : []}
+          segmentColors={props.data ? props.data.colors : []}
           ringWidth={47}
           needleTransitionDuration={2222}
           needleTransition="easeElastic"

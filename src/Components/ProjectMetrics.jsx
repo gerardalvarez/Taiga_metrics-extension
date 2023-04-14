@@ -7,7 +7,7 @@ import { TbAdjustments } from 'react-icons/tb';
 export default function ProjectMetrics(props) {
   const [dataMetrics, setDataMetrics] = useState('');
   const [selectedFiltersStudents, setSelectedFiltersStudents] = useState([]);
-
+  const [categories, setCategories] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -26,6 +26,9 @@ export default function ProjectMetrics(props) {
     if (props.data) {
       setDataMetrics(props.data);
     }
+    if (props.categories) {
+      setCategories(props.categories);
+    }
     chrome.storage.local.get('projectFilters', (data) => {
       console.log('projectFilters:');
       console.log(data);
@@ -36,7 +39,7 @@ export default function ProjectMetrics(props) {
         ? setSelectedFiltersStudents([])
         : setSelectedFiltersStudents(data.projectFilters);
     });
-  }, [props.data]);
+  }, [props.data, props.categories]);
 
   const handleFilterButtonClick = (selectedStudent) => {
     if (selectedFiltersStudents.includes(selectedStudent)) {
@@ -129,7 +132,15 @@ export default function ProjectMetrics(props) {
                       <div className={styles.infodesc}>{dato.description} </div>
                     ) : null}
                     <div key={dato.id} className={styles.speedometers}>
-                      <Speedometer value={dato.value * 100} text={dato.name} />
+                      <Speedometer
+                        value={dato.value * 100}
+                        text={dato.name}
+                        data={
+                          dato.qualityFactors.includes('deviationmetrics')
+                            ? categories.Deviation
+                            : categories.Default
+                        }
+                      />
                     </div>
                   </>
                 ))}

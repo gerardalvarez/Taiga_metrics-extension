@@ -18,6 +18,7 @@ export default function UserMetrics(props) {
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [selectedFiltersStudents, setSelectedFiltersStudents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [categories, setCategories] = useState('');
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -50,6 +51,11 @@ export default function UserMetrics(props) {
     if (props.dataus) {
       setDataMetrics(props.dataus);
     }
+
+    if (props.categories) {
+      setCategories(props.categories);
+    }
+
     chrome.storage.local.get('usersFilters', (data) => {
       data &&
       Object.keys(data).length === 0 &&
@@ -65,7 +71,7 @@ export default function UserMetrics(props) {
         ? setSelectedFiltersStudents([])
         : setSelectedFiltersStudents(data.usersFiltersStudent);
     });
-  }, [props.dataus]);
+  }, [props.dataus, props.categories]);
 
   const handleFilterButtonClick = (selectedCategory) => {
     if (selectedFilters.includes(selectedCategory)) {
@@ -254,6 +260,7 @@ export default function UserMetrics(props) {
                             <Speedometer
                               value={dato.value * 100}
                               text={dato.name}
+                              data={categories.memberscontribution}
                             />
                           </div>
                         )}

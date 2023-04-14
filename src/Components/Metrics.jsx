@@ -17,6 +17,7 @@ export default function Metrics() {
   const [usdata, setUsdata] = useState(null);
   const [pdata, setPdata] = useState(null);
   const [activeTab, setActiveTab] = useState(0); // estado de la pestaña activa
+  const [categories, setCategories] = useState('');
 
   useEffect(() => {
     chrome.storage.local.get('extensionTabs', (data) => {
@@ -29,7 +30,16 @@ export default function Metrics() {
         ? setActiveTab(0)
         : setActiveTab(data.extensionTabs);
     });
-    fetch('http://localhost:3000/api/projects/pes11a/projectmetrics')
+
+    fetch('http://localhost:3000/api/projects/pes21a/metricscategories')
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
+        setCategories(data);
+      })
+      .catch((error) => console.error(error));
+
+    fetch('http://localhost:3000/api/projects/pes21a/projectmetrics')
       .then((response) => response.json())
       .then((data) => {
         data.error ? seterror(true) : seterror(false);
@@ -42,7 +52,7 @@ export default function Metrics() {
         console.error(error);
       });
     setLoading(true);
-    fetch('http://localhost:3000/api/projects/pes11a/usersmetrics')
+    fetch('http://localhost:3000/api/projects/pes21a/usersmetrics')
       .then((response) => response.json())
       .then((data) => {
         data.error ? seterror(true) : seterror(false);
@@ -122,12 +132,12 @@ export default function Metrics() {
             <>
               {activeTab === 0 && (
                 <div className={styles.tabPanel}>
-                  <UserMetrics dataus={usdata} />
+                  <UserMetrics dataus={usdata} categories={categories} />
                 </div>
               )}
               {activeTab === 1 && (
                 <div className={styles.tabPanel}>
-                  <ProjectMetrics data={pdata} />
+                  <ProjectMetrics data={pdata} categories={categories} />
                 </div>
               )}
             </>
