@@ -137,8 +137,10 @@ export default function ProjectMetrics(props) {
                         text={dato.name}
                         data={
                           dato.qualityFactors &&
-                          dato.qualityFactors.includes('deviationmetrics')
-                            ? categories.Deviation
+                          (dato.qualityFactors.includes('deviationmetrics') ||
+                            dato.qualityFactors.includes('commitsmanagement') ||
+                            dato.qualityFactors.includes('unassignedtasks'))
+                            ? categories.RDefault
                             : categories.Default
                         }
                       />

@@ -219,6 +219,7 @@ export default function UserMetrics(props) {
                       </>
                     ))}
                   </div>
+                  <br />
                 </>
               );
             }

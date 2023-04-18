@@ -11,7 +11,7 @@ function Speedometer(props) {
           maxValue={1}
           value={props.value / 100}
           currentValueText={
-            props.text && props.value != undefined
+            props.text && props.value !== undefined
               ? props.text + ' ( ' + props.value.toString().slice(0, 6) + ' %)'
               : 'Undefined'
           }

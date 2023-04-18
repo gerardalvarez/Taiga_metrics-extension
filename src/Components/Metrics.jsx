@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import 'react-tabs/style/react-tabs.css';
 import UserMetrics from './UserMetrics';
 import ProjectMetrics from './ProjectMetrics';
+import EvalMetrics from './EvalMetrics.jsx';
 import ReactLoading from 'react-loading';
 
 function reload() {
@@ -102,6 +103,20 @@ export default function Metrics(props) {
               >
                 Project Metrics
               </div>
+              <div
+                className={activeTab === 2 ? styles.activeTab : styles.tab}
+                onClick={() => {
+                  setActiveTab(2);
+                  chrome.storage.local.set({ extensionTabs: 2 }, () => {
+                    chrome.runtime.sendMessage({
+                      type: 'updateinnerTabs',
+                      extensionTabs: 2,
+                    });
+                  });
+                }}
+              >
+                Metrics Evaluation
+              </div>
             </div>
           </div>
           {loading ? (
@@ -139,6 +154,11 @@ export default function Metrics(props) {
               {activeTab === 1 && (
                 <div className={styles.tabPanel}>
                   <ProjectMetrics data={pdata} categories={categories} />
+                </div>
+              )}
+              {activeTab === 2 && (
+                <div className={styles.tabPanel}>
+                  <EvalMetrics proyecto={props.proyecto} />
                 </div>
               )}
             </>

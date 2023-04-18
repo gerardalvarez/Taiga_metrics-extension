@@ -44,21 +44,26 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
-  const [proyecto, setProyecto] = useState('');
+  const [proyecto, setProyecto] = useState(null);
 
   useEffect(() => {
-    chrome.storage.local.get('logged_in', (data) => {
-      setIsLogged(data.logged_in);
-    });
+    async function fetchData() {
+      const data = await new Promise((resolve) => {
+        chrome.storage.local.get(['logged_in', 'proyecto_actual'], (data) => {
+          resolve(data);
+        });
+      });
 
-    chrome.storage.local.get('proyecto_actual', (data) => {
+      setIsLogged(data.logged_in);
       setProyecto(data.proyecto_actual);
-    });
+    }
+
+    fetchData();
   }, []);
 
   return (
     <div>
-      {isLogged ? (
+      {isLogged && proyecto ? (
         <div className={styles.containerMetrics}>
           <Metrics proyecto={proyecto} />
         </div>

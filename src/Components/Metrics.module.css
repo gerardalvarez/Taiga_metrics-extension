@@ -41,7 +41,7 @@
 .tab {
   text-align: center;
   padding: 2px;
-  width: 260px;
+  width: 180px;
   cursor: pointer;
   color: #979595;
   transition: background-color 0.2s ease-in-out;
@@ -56,7 +56,7 @@
   color: #444;
   transition: background-color 0.2s ease-in-out;
   border-radius: 3px;
-  width: 260px;
+  width: 180px;
   color: white;
   font-weight: bold;
 }
