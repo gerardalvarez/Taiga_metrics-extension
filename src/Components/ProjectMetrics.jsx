@@ -136,6 +136,7 @@ export default function ProjectMetrics(props) {
                         value={dato.value * 100}
                         text={dato.name}
                         data={
+                          dato.qualityFactors &&
                           dato.qualityFactors.includes('deviationmetrics')
                             ? categories.Deviation
                             : categories.Default
