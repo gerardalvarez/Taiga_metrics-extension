@@ -11,7 +11,7 @@ function reload() {
   });
 }
 
-export default function Metrics() {
+export default function Metrics(props) {
   const [error, seterror] = useState(false);
   const [loading, setLoading] = useState(true);
   const [usdata, setUsdata] = useState(null);
@@ -30,8 +30,9 @@ export default function Metrics() {
         ? setActiveTab(0)
         : setActiveTab(data.extensionTabs);
     });
-
-    fetch('http://localhost:3000/api/projects/pes21a/metricscategories')
+    fetch(
+      `http://localhost:3000/api/projects/${props.proyecto}/metricscategories`
+    )
       .then((response) => response.json())
       .then((data) => {
         //console.log(data);
@@ -39,7 +40,7 @@ export default function Metrics() {
       })
       .catch((error) => console.error(error));
 
-    fetch('http://localhost:3000/api/projects/pes21a/projectmetrics')
+    fetch(`http://localhost:3000/api/projects/${props.proyecto}/projectmetrics`)
       .then((response) => response.json())
       .then((data) => {
         data.error ? seterror(true) : seterror(false);
@@ -52,7 +53,7 @@ export default function Metrics() {
         console.error(error);
       });
     setLoading(true);
-    fetch('http://localhost:3000/api/projects/pes21a/usersmetrics')
+    fetch(`http://localhost:3000/api/projects/${props.proyecto}/usersmetrics`)
       .then((response) => response.json())
       .then((data) => {
         data.error ? seterror(true) : seterror(false);
@@ -65,7 +66,7 @@ export default function Metrics() {
         console.error(error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.proyecto]);
 
   return (
     <>

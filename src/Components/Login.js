@@ -22,57 +22,56 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log('aaaaa');
     // Aquí llamarías a tu backend para autenticar al usuario
     // Si el usuario es autenticado con éxito, establecerías isLoggedIn a true
-    /*try {
-      /* const response = await fetch('/api/login', {
+    try {
+      const response = await fetch('http://localhost:3000/api/login', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      console.log('aaaaa'); 
-      if (response.ok) { */
-    if (username === 'pes11a' && password === 'a') {
-      setIsLoggedIn(true);
-      setProyecto(username);
-      // Guarda la clave "logged_in" en el almacenamiento local
-      chrome.storage.local.set(
-        { logged_in: true, proyecto_actual: username },
-        () => {
-          chrome.runtime.sendMessage({
-            type: 'updateLocalStorage',
-            logged_in: true,
-            proyecto_actual: username,
-          });
-        }
-      );
-
-      chrome.tabs.query(
-        { url: 'https://tree.taiga.io/project/*/timeline' },
-        function (tabs) {
-          if (tabs.length > 0) {
-            // Se encontró la pestaña
-            chrome.tabs.reload(tabs[0].id);
-          } else {
-            // La pestaña no está abierta
-            // Puedes abrir la pestaña usando chrome.tabs.create
-          }
-        }
-      );
-    } else {
-      // mostrar error de autenticación
-      //const data = await response.json();
-      setErrorMessage('Usuario o contraseña incorrectos');
       console.log('aaaaa');
-    }
-    clearForm();
-    /* } catch (error) {
+      if (response.ok) {
+        //if (username === 'pes11a' && password === 'a') {
+        setIsLoggedIn(true);
+        setProyecto(username);
+        // Guarda la clave "logged_in" en el almacenamiento local
+        chrome.storage.local.set(
+          { logged_in: true, proyecto_actual: username },
+          () => {
+            chrome.runtime.sendMessage({
+              type: 'updateLocalStorage',
+              logged_in: true,
+              proyecto_actual: username,
+            });
+          }
+        );
+
+        chrome.tabs.query(
+          { url: 'https://tree.taiga.io/project/*/timeline' },
+          function (tabs) {
+            if (tabs.length > 0) {
+              // Se encontró la pestaña
+              chrome.tabs.reload(tabs[0].id);
+            } else {
+              // La pestaña no está abierta
+              // Puedes abrir la pestaña usando chrome.tabs.create
+            }
+          }
+        );
+      } else {
+        // mostrar error de autenticación
+        const data = await response.json();
+        setErrorMessage(data.error);
+        console.log('aaaaa');
+      }
+      clearForm();
+    } catch (error) {
       console.error(error);
       //setErrorMessage('Ha ocurrido un error');
-    } */
+    }
   };
 
   const handleLogout = () => {
