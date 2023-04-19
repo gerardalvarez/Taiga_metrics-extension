@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import './Login.css';
 import Qrapids from '../assets/img/qrapids.png';
+import ReactLoading from 'react-loading';
 
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -9,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [proyecto, setProyecto] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     chrome.storage.local.get('logged_in', (data) => {
@@ -22,6 +24,7 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setLoading(true);
     // Aquí llamarías a tu backend para autenticar al usuario
     // Si el usuario es autenticado con éxito, establecerías isLoggedIn a true
     try {
@@ -32,11 +35,14 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log('aaaaa');
+
       if (response.ok) {
         //if (username === 'pes11a' && password === 'a') {
         setIsLoggedIn(true);
         setProyecto(username);
+        setLoading(false);
+        setErrorMessage('');
+
         // Guarda la clave "logged_in" en el almacenamiento local
         chrome.storage.local.set(
           { logged_in: true, proyecto_actual: username },
@@ -66,10 +72,13 @@ const Login = () => {
         const data = await response.json();
         setErrorMessage(data.error);
         console.log('aaaaa');
+        setLoading(false);
       }
       clearForm();
     } catch (error) {
       console.error(error);
+      setErrorMessage('server error');
+      setLoading(false);
       //setErrorMessage('Ha ocurrido un error');
     }
   };
@@ -144,9 +153,28 @@ const Login = () => {
                   {errorMessage}
                 </div>
               )}
-              <button className="button" type="submit">
-                Log In
-              </button>
+              {loading ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    alignContent: 'center',
+                    margin: '5px',
+                  }}
+                >
+                  <ReactLoading
+                    type="bubbles"
+                    color="#008aa8"
+                    height={'20%'}
+                    width={'20%'}
+                  />
+                </div>
+              ) : (
+                <button className="button" type="submit">
+                  Log In
+                </button>
+              )}
             </form>
           </div>
         </>
