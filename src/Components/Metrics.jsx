@@ -158,7 +158,7 @@ export default function Metrics(props) {
               )}
               {activeTab === 2 && (
                 <div className={styles.tabPanel}>
-                  <EvalMetrics proyecto={props.proyecto} />
+                  <EvalMetrics data={usdata} proyecto={props.proyecto} />
                 </div>
               )}
             </>

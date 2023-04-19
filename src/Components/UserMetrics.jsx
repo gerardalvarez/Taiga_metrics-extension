@@ -7,6 +7,32 @@ import 'react-tooltip/dist/react-tooltip.css';
 import { motion } from 'framer-motion';
 import { TbAdjustments } from 'react-icons/tb';
 
+const colors = [
+  'rgba(255, 99, 132, 0.4)',
+  'rgba(255, 99, 255, 0.4)',
+  'rgba(99, 255, 132, 0.4)',
+  'rgba(99, 255, 255, 0.4)',
+  'rgba(255, 153, 0, 0.4)',
+  'rgba(132, 99, 255, 0.4)',
+  'rgba(255, 132, 99, 0.4)',
+  'rgba(99, 132, 255, 0.4)',
+  'rgba(255, 255, 99, 0.4)',
+  'rgba(153, 255, 0, 0.4)',
+];
+
+const colorBorder = [
+  'rgba(255, 99, 132)',
+  'rgba(255, 99, 255)',
+  'rgba(99, 255, 132)',
+  'rgba(99, 255, 255)',
+  'rgba(255, 153, 0)',
+  'rgba(132, 99, 255)',
+  'rgba(255, 132, 99)',
+  'rgba(99, 132, 255)',
+  'rgba(255, 255, 99)',
+  'rgba(153, 255, 0)',
+];
+
 function extractvalues(data) {
   var result = [];
   data.map((dato) => result.push(dato.value * 100));
@@ -39,15 +65,6 @@ export default function UserMetrics(props) {
   };
 
   useEffect(() => {
-    /*fetch('http://localhost:3000/api/projects/pes11a/usersmetrics')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setDataMetrics(data);
-      })
-      .catch((error) => console.error(error));
-    console.log(dataMetrics);*/
-
     if (props.dataus) {
       setDataMetrics(props.dataus);
     }
@@ -181,7 +198,7 @@ export default function UserMetrics(props) {
             justifyContent: 'center',
           }}
         >
-          {Object.keys(dataMetrics).map((key) => {
+          {Object.keys(dataMetrics).map((key, index) => {
             console.log(selectedFiltersStudents);
             if (
               selectedFiltersStudents.length <= 0 ||
@@ -199,8 +216,16 @@ export default function UserMetrics(props) {
                     </div>
                     <div>
                       <RadarChart
-                        student={key}
                         values={extractvalues(dataMetrics[key])}
+                        dataset={[
+                          {
+                            label: key + ' Metrics',
+                            data: extractvalues(dataMetrics[key]),
+                            backgroundColor: colors[index],
+                            borderColor: colorBorder[index],
+                            borderWidth: 2,
+                          },
+                        ]}
                       />
                     </div>
                     {dataMetrics[key].map((dato) => (
