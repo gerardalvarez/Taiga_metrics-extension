@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './EvalMetrics.module.css';
 import RadarChart from './Charts/Radar';
+import PieChart from './Charts/PieChart';
 import { Typewriter } from 'react-simple-typewriter';
 
 const colors = [
@@ -39,6 +40,7 @@ const EvalMetrics = (props) => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState('');
   const [proj, setProj] = useState('');
+  const [hoursData, setHoursData] = useState('');
   const [dataset, setDataset] = useState([]);
 
   useEffect(() => {
@@ -59,7 +61,28 @@ const EvalMetrics = (props) => {
       });
       setDataset(datasetaux);
     }
-  }, [props.proyecto, props.data]);
+    if (props.hoursData) {
+      var datasetaux2 = {
+        labels: Object.keys(props.hoursData),
+        datasets: [
+          {
+            label: '% of total hours',
+            data: [],
+            backgroundColor: [],
+            borderColor: [],
+            borderWidth: 1,
+            radius: '80%',
+          },
+        ],
+      };
+      Object.keys(props.hoursData).forEach((key, index) => {
+        datasetaux2.datasets[0].data.push(props.hoursData[key].value * 100);
+        datasetaux2.datasets[0].backgroundColor.push(colors[index]);
+        datasetaux2.datasets[0].borderColor.push(colorBorder[index]);
+      });
+      setHoursData(datasetaux2);
+    }
+  }, [props.proyecto, props.data, props.hoursData]);
 
   const handleClick = () => {
     setLoading(true);
@@ -82,6 +105,13 @@ const EvalMetrics = (props) => {
 
   return (
     <div className={styles.container_out}>
+      {props.hoursData && Object.keys(props.hoursData).length > 0 ? (
+        <div className={styles.container}>
+          <div className={styles.tit}>Students Dedication Hours</div>
+          <PieChart datasetPie={hoursData} />
+          <br />
+        </div>
+      ) : null}
       <div className={styles.container}>
         <div className={styles.tit}>Students Overall</div>
         <RadarChart dataset={dataset} />

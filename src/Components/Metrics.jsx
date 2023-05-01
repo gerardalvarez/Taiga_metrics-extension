@@ -17,6 +17,7 @@ export default function Metrics(props) {
   const [loading, setLoading] = useState(true);
   const [usdata, setUsdata] = useState(null);
   const [pdata, setPdata] = useState(null);
+  const [hours, setHours] = useState(null);
   const [activeTab, setActiveTab] = useState(0); // estado de la pestaña activa
   const [categories, setCategories] = useState('');
 
@@ -38,6 +39,14 @@ export default function Metrics(props) {
       .then((data) => {
         //console.log(data);
         setCategories(data);
+      })
+      .catch((error) => console.error(error));
+
+    fetch(`http://localhost:3000/api/projects/${props.proyecto}/hours`)
+      .then((response) => response.json())
+      .then((data) => {
+        //console.log(data);
+        setHours(data);
       })
       .catch((error) => console.error(error));
 
@@ -66,6 +75,7 @@ export default function Metrics(props) {
         setLoading(false);
         console.error(error);
       });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.proyecto]);
 
@@ -158,7 +168,11 @@ export default function Metrics(props) {
               )}
               {activeTab === 2 && (
                 <div className={styles.tabPanel}>
-                  <EvalMetrics data={usdata} proyecto={props.proyecto} />
+                  <EvalMetrics
+                    data={usdata}
+                    hoursData={hours}
+                    proyecto={props.proyecto}
+                  />
                 </div>
               )}
             </>

@@ -286,7 +286,15 @@ export default function UserMetrics(props) {
                             <Speedometer
                               value={dato.value * 100}
                               text={dato.name}
-                              data={categories.memberscontribution}
+                              data={
+                                dato.qualityFactors &&
+                                dato.qualityFactors.includes('commits')
+                                  ? {
+                                      values: [0, 1],
+                                      colors: ['rgba(99, 132, 255)'],
+                                    }
+                                  : categories.memberscontribution
+                              }
                             />
                           </div>
                         )}
