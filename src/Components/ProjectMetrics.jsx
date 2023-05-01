@@ -141,6 +141,14 @@ export default function ProjectMetrics(props) {
                             dato.qualityFactors.includes('commitsmanagement') ||
                             dato.qualityFactors.includes('unassignedtasks'))
                             ? categories.RDefault
+                            : dato.qualityFactors.includes('hours') &&
+                              dato.qualityFactors.includes(
+                                'activitydistribution'
+                              )
+                            ? {
+                                values: [0, 1],
+                                colors: ['rgba(99, 132, 255)'],
+                              }
                             : categories.Default
                         }
                       />
