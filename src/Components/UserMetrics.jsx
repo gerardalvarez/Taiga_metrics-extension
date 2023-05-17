@@ -288,7 +288,10 @@ export default function UserMetrics(props) {
                               text={dato.name}
                               data={
                                 dato.qualityFactors &&
-                                dato.qualityFactors.includes('commits')
+                                (dato.qualityFactors.includes('commits') ||
+                                  dato.qualityFactors.includes(
+                                    'modifiedlinescontribution'
+                                  ))
                                   ? {
                                       values: [0, 1],
                                       colors: ['rgba(99, 132, 255)'],
