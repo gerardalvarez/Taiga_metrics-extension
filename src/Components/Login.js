@@ -11,6 +11,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [proyecto, setProyecto] = useState();
   const [loading, setLoading] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   useEffect(() => {
     chrome.storage.local.get('logged_in', (data) => {
@@ -107,20 +108,47 @@ const Login = () => {
     setUsername('');
     setPassword('');
   };
+
+  const handleAboutClick = () => {
+    setShowAbout(true);
+  };
+
+  const handleBackClick = () => {
+    setShowAbout(false);
+  };
+
   return (
     <div>
       {isLoggedIn ? (
         <div className="centered-container">
-          <img alt="img" src={Qrapids} className="img" />
-          <div className="pp">
-            <p>Showing project : {proyecto}</p>
-          </div>
-          <div className="pp">
-            <p>If nothing is showed in the /timeline, reload the page</p>
-          </div>
-          <div className="but2">
-            <button onClick={handleLogout}>Log Out</button>
-          </div>
+          {showAbout ? (
+            <div className="about-container">
+              <div className="back">
+                <button onClick={handleBackClick}>{'<'}</button>
+              </div>
+              <div className="back">
+                <p>Hola</p>
+              </div>
+            </div>
+          ) : (
+            <div className="logged-container">
+              <img alt="img" src={Qrapids} className="img" />
+              <div className="pp">
+                <p>Showing project : {proyecto}</p>
+              </div>
+              <div className="pp">
+                <p>If nothing is showed in the /timeline, reload the page</p>
+              </div>
+              <div className="but2">
+                <button onClick={handleLogout}>Log Out</button>
+              </div>
+              <div>
+                <p className="about" onClick={handleAboutClick}>
+                  About
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <>
