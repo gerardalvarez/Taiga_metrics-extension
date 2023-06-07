@@ -20,6 +20,8 @@ export default function Metrics(props) {
   const [hours, setHours] = useState(null);
   const [activeTab, setActiveTab] = useState(0); // estado de la pestaña activa
   const [categories, setCategories] = useState('');
+  const [lastreport, setLastreport] = useState(null);
+  const [report, setReport] = useState(null);
 
   useEffect(() => {
     chrome.storage.local.get('extensionTabs', (data) => {
@@ -76,6 +78,19 @@ export default function Metrics(props) {
         console.error(error);
       });
 
+    fetch(`http://localhost:3000/api/projects/${props.proyecto}/lastreport`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.error ? seterror(true) : seterror(false);
+        setLoading(false);
+        setLastreport(data.lastEvaluation);
+        setReport(data.report);
+      })
+      .catch((error) => {
+        seterror(true);
+        setLoading(false);
+        console.error(error);
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.proyecto]);
 
@@ -172,6 +187,8 @@ export default function Metrics(props) {
                     data={usdata}
                     hoursData={hours}
                     proyecto={props.proyecto}
+                    lasteval={lastreport}
+                    report={report}
                   />
                 </div>
               )}

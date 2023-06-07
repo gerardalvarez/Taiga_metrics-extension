@@ -127,7 +127,29 @@ const Login = () => {
                 <button onClick={handleBackClick}>{'<'}</button>
               </div>
               <div className="back">
-                <p>Hola</p>
+                <p>¡Bienvenido a Taiga Metrics!</p>
+                <p>
+                  ¡Bienvenido a Taiga Metrics! Esta extensión fue desarrollada
+                  como parte de un Trabajo de Fin de Grado (TFG) para mejorar la
+                  gestión de proyectos en Taiga. Proporciona métricas y
+                  visualizaciones adicionales para un mejor seguimiento del
+                  progreso.
+                </p>
+                <p>Para más información y acceso al código fuente, visita:</p>
+                <a href="https://github.com/tu-repositorio-de-github">
+                  Repositorio de GitHub
+                </a>
+                <p>Para ver las métricas completas accede a:</p>
+                <a href="http://gessi-dashboard.essi.upc.edu:8888/">
+                  Learning Dashboard
+                </a>
+                <p style={{ paddingTop: '10px' }}>
+                  <em>
+                    Nota: La extensión Taiga Metrics es un prototipo en
+                    desarrollo y puede estar sujeta a actualizaciones y mejoras
+                    en el futuro.
+                  </em>
+                </p>
               </div>
             </div>
           ) : (

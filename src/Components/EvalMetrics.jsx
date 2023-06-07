@@ -38,10 +38,11 @@ function extractvalues(data) {
 
 const EvalMetrics = (props) => {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState('');
   const [proj, setProj] = useState('');
   const [hoursData, setHoursData] = useState('');
   const [dataset, setDataset] = useState([]);
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [report, setReport] = useState(null);
 
   useEffect(() => {
     if (props.proyecto) {
@@ -82,7 +83,41 @@ const EvalMetrics = (props) => {
       });
       setHoursData(datasetaux2);
     }
-  }, [props.proyecto, props.data, props.hoursData]);
+    if (props.lasteval) {
+      const lastEvaluation = new Date(props.lasteval);
+      const nextEvaluation = new Date(
+        lastEvaluation.getTime() + 5 * 24 * 60 * 60 * 1000
+      ); // +1 semana
+      const now = new Date();
+
+      if (now < nextEvaluation) {
+        const timeLeft = Math.abs(nextEvaluation - now);
+
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
+
+        setTimeLeft({ days, hours, minutes });
+      } else {
+        setTimeLeft(null);
+      }
+    }
+    if (props.report) {
+      var responseWithBreaks = props.report.split('\n').map((line, index) => (
+        <React.Fragment key={index}>
+          {line}
+          <br />
+        </React.Fragment>
+      ));
+      setReport(responseWithBreaks);
+    }
+  }, [
+    props.proyecto,
+    props.data,
+    props.hoursData,
+    props.lasteval,
+    props.report,
+  ]);
 
   const handleClick = () => {
     setLoading(true);
@@ -99,7 +134,7 @@ const EvalMetrics = (props) => {
                 <br />
               </React.Fragment>
             )));
-        setResult(responseWithBreaks);
+        setReport(responseWithBreaks);
       });
   };
 
@@ -120,12 +155,20 @@ const EvalMetrics = (props) => {
       <div className={styles.container2}>
         <button
           className={
-            !result ? styles.button_eval_active : styles.button_eval_inactive
+            !report
+              ? timeLeft
+                ? styles.button_eval_inactive
+                : styles.button_eval_active
+              : styles.button_eval_inactive
           }
           onClick={handleClick}
-          disabled={result}
+          disabled={!report ? !!timeLeft : true}
         >
-          {loading ? 'Evaluating....' : 'Evaluate'}
+          {loading
+            ? 'Reporting....'
+            : timeLeft
+            ? `There are ${timeLeft.days} days, ${timeLeft.hours} hours, and ${timeLeft.minutes} minutes left until the next evaluation`
+            : 'Report'}
         </button>
         {loading && (
           <div className={styles.loadingText}>
@@ -143,9 +186,9 @@ const EvalMetrics = (props) => {
           </div>
         )}
         {!loading &&
-          (result ? (
+          (report ? (
             <div className={styles.evaluationText}>
-              <p>{result}</p>
+              <p>{report}</p>
               <br />
             </div>
           ) : null)}
