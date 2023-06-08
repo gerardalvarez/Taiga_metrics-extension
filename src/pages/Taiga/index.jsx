@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './Index.module.css';
 import Metrics from '../../Components/Metrics';
+import CryptoJS from 'crypto-js';
 
 function injectReactComponent() {
   if (
@@ -26,6 +27,8 @@ function injectReactComponent() {
     elementoX.insertAdjacentElement('afterend', reactContainer);
   }
 }
+
+const k = 'TFG-2023-Crypto-projects';
 
 const singleProjectIntro = document.querySelector('.single-project-intro');
 if (singleProjectIntro != null) {
@@ -55,7 +58,11 @@ function App() {
       });
 
       setIsLogged(data.logged_in);
-      setProyecto(data.proyecto_actual);
+      if (data.proyecto_actual) {
+        const bytes = CryptoJS.AES.decrypt(data.proyecto_actual, k);
+        const decryptedProject = bytes.toString(CryptoJS.enc.Utf8);
+        setProyecto(decryptedProject);
+      }
     }
 
     fetchData();

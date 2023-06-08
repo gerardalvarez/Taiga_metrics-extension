@@ -105,5 +105,10 @@ body {
 }
 
 .back {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.text-about {
   margin: 20px;
 }

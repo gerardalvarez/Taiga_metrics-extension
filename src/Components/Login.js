@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import './Login.css';
 import Qrapids from '../assets/img/qrapids.png';
 import ReactLoading from 'react-loading';
+import CryptoJS from 'crypto-js';
 
 const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,7 +20,11 @@ const Login = () => {
     });
 
     chrome.storage.local.get('proyecto_actual', (data) => {
-      setProyecto(data.proyecto_actual);
+      if (data.proyecto_actual) {
+        const bytes = CryptoJS.AES.decrypt(data.proyecto_actual, k);
+        const decryptedProject = bytes.toString(CryptoJS.enc.Utf8);
+        setProyecto(decryptedProject);
+      }
     });
   }, []);
 
@@ -43,15 +48,15 @@ const Login = () => {
         setProyecto(username);
         setLoading(false);
         setErrorMessage('');
-
+        const encryptedProject = CryptoJS.AES.encrypt(username, k).toString();
         // Guarda la clave "logged_in" en el almacenamiento local
         chrome.storage.local.set(
-          { logged_in: true, proyecto_actual: username },
+          { logged_in: true, proyecto_actual: encryptedProject },
           () => {
             chrome.runtime.sendMessage({
               type: 'updateLocalStorage',
               logged_in: true,
-              proyecto_actual: username,
+              proyecto_actual: encryptedProject,
             });
           }
         );
@@ -83,14 +88,14 @@ const Login = () => {
       //setErrorMessage('Ha ocurrido un error');
     }
   };
-
+  const k = 'TFG-2023-Crypto-projects';
   const handleLogout = () => {
     // Establece isLoggedIn a false
     setIsLoggedIn(false);
     setProyecto('');
     // Elimina la clave "logged_in" del almacenamiento local
     chrome.storage.local.set(
-      { logged_in: false, proyecto_actual: username },
+      { logged_in: false, proyecto_actual: null },
       () => {
         chrome.runtime.sendMessage({
           type: 'updateLocalStorage',
@@ -119,37 +124,40 @@ const Login = () => {
 
   return (
     <div>
-      {isLoggedIn ? (
+      {isLoggedIn && proyecto ? (
         <div className="centered-container">
           {showAbout ? (
             <div className="about-container">
               <div className="back">
                 <button onClick={handleBackClick}>{'<'}</button>
               </div>
-              <div className="back">
-                <p>¡Bienvenido a Taiga Metrics!</p>
+              <div className="text-about">
+                <p>Welcome to Taiga Metrics!</p>
                 <p>
-                  ¡Bienvenido a Taiga Metrics! Esta extensión fue desarrollada
-                  como parte de un Trabajo de Fin de Grado (TFG) para mejorar la
-                  gestión de proyectos en Taiga. Proporciona métricas y
-                  visualizaciones adicionales para un mejor seguimiento del
-                  progreso.
+                  This extension was developed as part of Gerard Álvarez's
+                  Treball de Final de Grau (TFG) to improve project management
+                  in Taiga. It provides additional metrics and visualizations
+                  for better progress tracking.
                 </p>
-                <p>Para más información y acceso al código fuente, visita:</p>
+                <p>
+                  For more information and access to the source code, visit:
+                </p>
                 <a href="https://github.com/tu-repositorio-de-github">
-                  Repositorio de GitHub
+                  GitHub repository
                 </a>
-                <p>Para ver las métricas completas accede a:</p>
+                <p>To see the complete metrics, visit:</p>
                 <a href="http://gessi-dashboard.essi.upc.edu:8888/">
                   Learning Dashboard
                 </a>
-                <p style={{ paddingTop: '10px' }}>
-                  <em>
-                    Nota: La extensión Taiga Metrics es un prototipo en
-                    desarrollo y puede estar sujeta a actualizaciones y mejoras
-                    en el futuro.
-                  </em>
-                </p>
+                <div style={{ marginTop: '60px' }}>
+                  <p>
+                    <em>
+                      Note: The Taiga Metrics extension is a prototype in
+                      development and may be subject to updates and improvements
+                      in the future.
+                    </em>
+                  </p>
+                </div>
               </div>
             </div>
           ) : (
