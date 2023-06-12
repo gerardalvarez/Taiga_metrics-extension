@@ -36,7 +36,6 @@ if (singleProjectIntro != null) {
 }
 
 const observer = new MutationObserver(function (mutationsList, observer) {
-  console.log('www');
   if (document.querySelector('.single-project-intro') != null) {
     injectReactComponent();
     return;

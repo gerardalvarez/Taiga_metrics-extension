@@ -142,7 +142,7 @@ const Login = () => {
                 <p>
                   For more information and access to the source code, visit:
                 </p>
-                <a href="https://github.com/tu-repositorio-de-github">
+                <a href="https://github.com/gerardalvarez/Taiga_metrics-extension">
                   GitHub repository
                 </a>
                 <p>To see the complete metrics, visit:</p>
