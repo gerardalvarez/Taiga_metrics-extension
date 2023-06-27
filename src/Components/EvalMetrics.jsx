@@ -121,7 +121,9 @@ const EvalMetrics = (props) => {
 
   const handleClick = () => {
     setLoading(true);
-    fetch(`http://localhost:3000/api/projects/${proj}/evaluate/projectmetrics`)
+    fetch(
+      `https://proxy-tfg.vercel.app/api/projects/${proj}/evaluate/projectmetrics`
+    )
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);

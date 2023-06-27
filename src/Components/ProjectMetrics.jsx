@@ -15,14 +15,6 @@ export default function ProjectMetrics(props) {
   };
 
   useEffect(() => {
-    /* fetch('http://localhost:3000/api/projects/pes11a/projectmetrics')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setDataMetrics(data);
-      })
-      .catch((error) => console.error(error));
-    console.log(dataMetrics); */
     if (props.data) {
       setDataMetrics(props.data);
     }

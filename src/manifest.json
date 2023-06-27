@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Taiga metrics",
-  "description": "A chrome extension that shows metrics from the Learning Dashboard of Qrapids for UPC projects into the Taiga project management tool. Built with React 17, Webpack 5, and Webpack Dev Server 4, this extension simplifies the process of tracking and managing project metrics by providing easy access to Qrapids data directly in your Taiga workspace.",
+  "description": "A chrome extension that shows metrics from the Learning Dashboard of Qrapids for UPC projects into the Taiga project management tool",
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js" },
   "action": {
@@ -20,11 +20,14 @@
     }
   ],
   "permissions": [
-    "storage","scripting","activeTab", "tabs"
+    "storage", "tabs"
 ],
 "host_permissions": [
-    "http://localhost:3000/*"
-    ,"*://*/*"
+    "http://localhost:3000/*",
+    "https://proxy-tfg.vercel.app/",
+    "http://gessi-dashboard.essi.upc.edu:3000/"
+    ,"https://tree.taiga.io/*",
+    "https://cors-anywhere.herokuapp.com/*"
 ],
   "devtools_page": "devtools.html",
   "web_accessible_resources": [

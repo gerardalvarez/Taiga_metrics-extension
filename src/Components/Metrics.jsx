@@ -35,7 +35,7 @@ export default function Metrics(props) {
         : setActiveTab(data.extensionTabs);
     });
     fetch(
-      `http://localhost:3000/api/projects/${props.proyecto}/metricscategories`
+      `https://proxy-tfg.vercel.app/api/projects/${props.proyecto}/metricscategories`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -44,7 +44,7 @@ export default function Metrics(props) {
       })
       .catch((error) => console.error(error));
 
-    fetch(`http://localhost:3000/api/projects/${props.proyecto}/hours`)
+    fetch(`https://proxy-tfg.vercel.app/api/projects/${props.proyecto}/hours`)
       .then((response) => response.json())
       .then((data) => {
         //console.log(data);
@@ -52,7 +52,9 @@ export default function Metrics(props) {
       })
       .catch((error) => console.error(error));
 
-    fetch(`http://localhost:3000/api/projects/${props.proyecto}/projectmetrics`)
+    fetch(
+      `https://proxy-tfg.vercel.app/api/projects/${props.proyecto}/projectmetrics`
+    )
       .then((response) => response.json())
       .then((data) => {
         data.error ? seterror(true) : seterror(false);
@@ -65,7 +67,9 @@ export default function Metrics(props) {
         console.error(error);
       });
     setLoading(true);
-    fetch(`http://localhost:3000/api/projects/${props.proyecto}/usersmetrics`)
+    fetch(
+      `https://proxy-tfg.vercel.app/api/projects/${props.proyecto}/usersmetrics`
+    )
       .then((response) => response.json())
       .then((data) => {
         data.error ? seterror(true) : seterror(false);
@@ -78,7 +82,9 @@ export default function Metrics(props) {
         console.error(error);
       });
 
-    fetch(`http://localhost:3000/api/projects/${props.proyecto}/lastreport`)
+    fetch(
+      `https://proxy-tfg.vercel.app/api/projects/${props.proyecto}/lastreport`
+    )
       .then((response) => response.json())
       .then((data) => {
         data.error ? seterror(true) : seterror(false);
